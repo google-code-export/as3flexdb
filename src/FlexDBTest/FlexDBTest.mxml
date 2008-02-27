@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application layout="absolute" width="800" height="500"
+    creationComplete="onCreationComplete()"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:flexui="flexunit.flexui.*">
+	
+<mx:Script>
+	
+	import flexunit.framework.TestSuite;
+	
+	import phi.db.DatabaseTest;
+	import phi.db.QueryTest;
+	
+	private function onCreationComplete():void
+	{
+		testRunner.test = createSuite();
+ 		testRunner.startTest();
+	}
+	
+	private function createSuite():TestSuite
+	{
+				
+ 		var ts:TestSuite = new TestSuite();
+
+ 		ts.addTest(DatabaseTest.suite());
+ 		ts.addTest(QueryTest.suite());
+ 		
+ 		return ts;
+ 	}
+	
+</mx:Script>
+
+<flexui:TestRunnerBase id="testRunner" width="100%" height="100%" />	
+</mx:Application>
