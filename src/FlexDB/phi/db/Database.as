@@ -35,6 +35,9 @@ package phi.db
 		// The number of the current open connections
 		private var nConnect :Number;
 		
+		// The name of the default connection
+		private var sDefaultConnection :String;
+		
 		/**
 		 * Constructor. 
 		 * 
@@ -87,14 +90,19 @@ package phi.db
 		 * @param pass the password of the remote application server
 		 * @param host the server ip
 		 * @param db the database name
+		 * @param bDefault set this connection as a default connection
 		 * 
 		 * @throws Error Error if a connection with the same name allready exist.
 		 */
-		public function connect(name:String, user:String, pass:String, host:String, db:String):void
+		public function connect(name:String, user:String, pass:String, host:String, db:String, bDefault:Boolean = false):void
 		{
 			if(this.connectionMap[name] == null)
 			{
 				this.connectionMap[name] = new ConnectionData(user, pass, host, db);
+				
+				if(bDefault) 
+					this.sDefaultConnection  = name;
+				
 				this.nConnect++;
 			} else
 			throw Error(CONNECTION_EXIST_ERR);
@@ -117,6 +125,27 @@ package phi.db
 			throw Error(CONNECTION_NOT_EXIST_ERR);
 			
 		}
+		
+		/**
+		 * Get the default connection name
+		 * 
+		 * @return a string with the name of the default connection
+		 */
+		 public function getDefaultConnectionName():String
+		 {
+		 	return this.sDefaultConnection;
+		 }
+		 
+		 /**
+		 * Set a connection as a default
+		 * 
+		 * @param name the connection name
+		 * @return
+		 */
+		 public function setDefaultConnection(name:String):void
+		 {
+		 	this.sDefaultConnection = name;
+		 }
 		
 		/**
 		 * Retrieve an connection information.

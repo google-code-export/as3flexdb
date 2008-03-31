@@ -10,3 +10,4 @@ Release Date: 17/02/08
 --------------------------------------------------------------------------
 
 1.0 - Repackaged zip
+1.1.2 - Add getDefaultConnection();, setDefaultConnection();

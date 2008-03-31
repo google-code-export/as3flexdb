@@ -37,10 +37,11 @@ package phi.interfaces
 		 * @param pass the password of the remote application server
 		 * @param host the server ip
 		 * @param db the database name
+		 * @param bDefault set this connection as a default connection
 		 * 
 		 * @throws Error Error if a connection with the same name allready exist.
 		 */
-		function connect(name:String, user:String, pass:String, host:String, db:String):void;
+		function connect(name:String, user:String, pass:String, host:String, db:String, bDefault:Boolean = false):void;
 		
 		/**
 		 * Disconnect from a previous connection
@@ -66,5 +67,20 @@ package phi.interfaces
 		 * @return the number of current open connections.
 		 */
 		function getConnections():Number;
+		
+		/**
+		 * Get the default connection name
+		 * 
+		 * @return a string with the name of the default connection
+		 */
+		 function getDefaultConnectionName():String;
+		 
+		 /**
+		 * Set a connection as a default
+		 * 
+		 * @param name the connection name
+		 * @return
+		 */
+		 function setDefaultConnection(name:String):void;
 	}
 }
