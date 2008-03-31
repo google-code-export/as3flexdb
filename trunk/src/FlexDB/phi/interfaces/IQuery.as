@@ -136,6 +136,7 @@ package phi.interfaces
 		 * 
 		 * @return a <code>ArrayCollection</code> with all selected records.
 		 */
+		 [Bindable (event="endQuery")]
 		 function getRecords():ArrayCollection;
 		 
 		 /**

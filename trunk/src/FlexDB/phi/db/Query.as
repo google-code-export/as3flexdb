@@ -195,8 +195,9 @@ package phi.db
 		 */
 		public function execute(q:String, option:String = Query.SELECT):void
 		{
-			query = q;
-			op    = option;
+			this.query = q;
+			this.op    = option;
+			this.step  = 0;
 					
 			startConnection();
 			conn.remoteObj.getOperation("query").send(q, conn.username, conn.password, conn.host, conn.db);
@@ -311,13 +312,12 @@ package phi.db
 		 	return query;
 		 }
 		 
-		
-		[Bindable("endQuery")]
 		/**
 		 * Get the records selected with a previous <code>execute()</code> method.
 		 * 
 		 * @return a <code>ArrayCollection</code> with all selected records.
 		 */
+		 [Bindable (event="endQuery")]	 
 		 public function getRecords():ArrayCollection
 		 {
 		 	return records;
@@ -346,7 +346,7 @@ package phi.db
 		 */
 		 public function getRow():Object
 		 {
-		 	if(records.length < step)
+		 	if(records.length-1 < step)
 		 		return null;
 		 		
 		 	var row :Object = records[step];
@@ -411,7 +411,7 @@ package phi.db
 		 		return;
 		 	}
 		 	
-		 	switch(op)
+		 	switch(this.op)
 		 	{
 		 		case Query.SELECT:
 		 		{
