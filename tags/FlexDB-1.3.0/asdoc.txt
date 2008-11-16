@@ -1,0 +1,1 @@
+asdoc -exclude-classes phi.controls.phiBusy -source-path D:\Kit\AS3FlexDB\FlexDB\src -doc-classes phi.db.Query phi.db.Database phi.db.ConnectionData -main-title "Flex Database Engine documentation" -window-title "FlexDB documentation" -footer "Copyright (c) 2007-2008 - phiMento, Inc"
