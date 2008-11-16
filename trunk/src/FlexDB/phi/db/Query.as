@@ -25,7 +25,7 @@ package phi.db
 	[Event(name="startQuery", type="flash.events.Event")]
 	
 	/**
-	 *  Dispatched after the SQL statement was executed.
+	 *  Dispatched after the SQL statement was executed.222
 	 * 
 	 * <P>The endQuery event is dispatched when the <code>execute()</code>
 	 * or <code>arrayInsert()</code> method is called.<BR>
