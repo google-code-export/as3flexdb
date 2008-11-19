@@ -16,7 +16,7 @@ package phi.db
   		 * 
   		 * @param methodName the name of the test method an instance to run
   		 */
-		public function QueryTest( methodName:String )
+		public function QueryTest( methodName:String)
 		{
 			super( methodName );
 		}  
