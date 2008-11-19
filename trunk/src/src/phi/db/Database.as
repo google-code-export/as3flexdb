@@ -1,11 +1,6 @@
 package phi.db
 {
 	import phi.interfaces.IDatabase;
-	import phi.interfaces.IQuery;
-	
-	import phi.db.ConnectionData;
-	
-	import mx.rpc.remoting.RemoteObject;
 
 	/**
 	 * A Singleton <code>IDatabase</code> implementation.
@@ -98,7 +93,7 @@ package phi.db
 		{
 			if(this.connectionMap[name] == null)
 			{
-				this.connectionMap[name] = new ConnectionData(user, pass, host, db);
+				this.connectionMap[name] = new ConnectionData(user, pass, host, db, name);
 				
 				if(bDefault) 
 					this.sDefaultConnection  = name;
@@ -107,6 +102,11 @@ package phi.db
 			} else
 			throw Error(CONNECTION_EXIST_ERR);
 
+		}
+		
+		public function set connection(c:ConnectionData):void
+		{
+			connect(c.name, c.username, c.password, c.host, c.db, true);
 		}
 		
 		/**

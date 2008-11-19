@@ -42,7 +42,8 @@ package phi.interfaces
 		 * @throws Error Error if a connection with the same name allready exist.
 		 */
 		function connect(name:String, user:String, pass:String, host:String, db:String, bDefault:Boolean = false):void;
-		
+		function set connection(c:ConnectionData):void;
+		 
 		/**
 		 * Disconnect from a previous connection
 		 * 
