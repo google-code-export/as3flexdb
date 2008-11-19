@@ -117,7 +117,7 @@ package phi.db
    		 	assertNotNull("Returned row instance", row);
    		 	
    		 	//assertEquals("Number of rows", "2", records.length);
-   		 	assertEquals("First returned row, username", "aaa", row.username);
+   		 	assertEquals("First returned row, username", "puser", row.username);
    		 	assertEquals("First returned row, fname", "Pop", row.fname);
    		 	
    		 	// Get next row and test again
