@@ -1,2 +1,2 @@
 #labels Featured
-Take a look at [http://itutorials.ro/viewtopic.php?f=9&t=7 FlexDB Tutorial 1] tutorial from [http://itutorials.ro/ iTutorials.ro]
+Take a look at [http://itutorials.ro/viewtopic.php?f=9&t=7 AS3FlexDB Tutorial 1] tutorial from [http://itutorials.ro/ iTutorials.ro]
