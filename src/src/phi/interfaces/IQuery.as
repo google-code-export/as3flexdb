@@ -46,6 +46,7 @@ package phi.interfaces
 		 * @see phi.db.Database
 		 */
 		function connect(connection:String, db:IDatabase):void;
+		function set database(db:IDatabase):void
 		
 		/**
 		 * Execte a SQL statement.
@@ -86,6 +87,7 @@ package phi.interfaces
 		 * @throws Error Error if there are any SQL errors.
 		 */
 		function execute(q:String, option:String = "select"):void;
+		function set q(s:String):void;
 		
 		/**
 		 * Execute a INSERT query on a table.
@@ -196,8 +198,8 @@ package phi.interfaces
 		 * @return true if execute stack is empty.
 		 */
 		 function isStackEmpty():Boolean;
-
 		 
+		 function set queryEnd(f:Function):void
 		
 	}
 }

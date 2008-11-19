@@ -106,7 +106,7 @@ package phi.db
 		private var error :String;
 		
 		// Current operation
-		private var op :String;
+		private var op :String = Query.SELECT;
 		
 		// The ID generated for an AUTO_INCREMENT
 		private var nLastID :Number;
@@ -156,6 +156,11 @@ package phi.db
 		public function connect(connection:String, db:IDatabase):void
 		{
 			conn = db.retrieveConnection(connection);
+		}
+		
+		public function set database(db:IDatabase):void
+		{
+			connect(db.getDefaultConnectionName(), db);
 		}
 		
 		/**
@@ -216,6 +221,11 @@ package phi.db
 						
 			startConnection();
 			conn.remoteObj.getOperation("query").send(q, conn.username, conn.password, conn.host, conn.db);
+		}
+		
+		public function set q(s:String):void
+		{
+			query = s;
 		}
 		
 		/**
@@ -438,6 +448,11 @@ package phi.db
 		 /**
 		 * 
 		 */
+		 public function set queryEnd(f:Function):void
+		 {
+		 	this.addEventListener(Query.QUERY_END, f);	
+		 }
+		 
 		 private function onQueryEnd(evt:ResultEvent):void
 		 {
 		 	// Check for SQL errors.
