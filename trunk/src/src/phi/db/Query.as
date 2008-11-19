@@ -342,10 +342,17 @@ package phi.db
 		 * 
 		 * @return a <code>ArrayCollection</code> with all selected records.
 		 */
-		 [Bindable (event="endQuery")]	 
 		 public function getRecords():ArrayCollection
 		 {
 		 	return records;
+		 }
+		 
+		 [Bindable (event="recordsChange")]
+		 public function get Records():ArrayCollection {return records;}
+		 public function set Records(r:ArrayCollection):void
+		 {
+		 	records = r;
+		 	dispatchEvent(new Event("recordsChange"));
 		 }
 		 
 		 /**
@@ -458,7 +465,7 @@ package phi.db
 		 	// Check for SQL errors.
 		 	if(evt.result is String)
 		 	{
-		 		records = null;
+		 		Records = null;
 		 		error	= evt.result as String;
 		 		dispatchEvent(new Event(Query.QUERY_ERROR));
 		 		
@@ -470,7 +477,7 @@ package phi.db
 		 	{
 		 		case Query.SELECT:
 		 		{
-		 			records = evt.result as ArrayCollection;
+		 			Records = evt.result as ArrayCollection;
 		 			dispatchEvent(new Event(Query.QUERY_END));
 		 		}
 		 		break;

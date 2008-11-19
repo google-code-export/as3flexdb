@@ -139,8 +139,11 @@ package phi.interfaces
 		 * 
 		 * @return a <code>ArrayCollection</code> with all selected records.
 		 */
-		 [Bindable (event="endQuery")]
 		 function getRecords():ArrayCollection;
+		 
+		 [Bindable (event="recordsChange")]
+		 function get Records():ArrayCollection;
+		 function set Records(r:ArrayCollection):void;
 		 
 		 /**
 		 * Get the next row from a previous selected records.
