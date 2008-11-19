@@ -450,7 +450,7 @@ package phi.db
 		 */
 		 public function set queryEnd(f:Function):void
 		 {
-		 	this.addEventListener(Query.QUERY_END, f);	
+		 	this.addEventListener(Query.QUERY_END, f);
 		 }
 		 
 		 private function onQueryEnd(evt:ResultEvent):void
