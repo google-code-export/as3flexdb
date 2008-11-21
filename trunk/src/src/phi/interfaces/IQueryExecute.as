@@ -16,5 +16,7 @@ package phi.interfaces
 	{
 		function get query():IQuery {return _q;}
 		function set query(q:IQuery):void {_q = q;}
+		
+		function execute(q:IQuery=null):void
 	}
 }

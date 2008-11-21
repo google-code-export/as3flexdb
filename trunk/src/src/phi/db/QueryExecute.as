@@ -26,12 +26,14 @@ package phi.db
 		public function QueryExecute(){};
 		
 		public function get query():IQuery {return _q;}
-		public function set query(q:IQuery):void
+		public function set query(q:IQuery):void {execute(q);}
+		
+		public function execute(q:IQuery=null):void
 		{
-			_q = q;
-			q.execute(_q.toString());
+			if(q != null)
+				_q = q;
+				
+			_q.execute(_q.toString());
 		}
-		
-		
 	}
 }
