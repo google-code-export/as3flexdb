@@ -81,19 +81,17 @@ package phi.db
 		 * </listing>
 		 * 
 		 * @param name the name of the connection
-		 * @param user the username of the remote application server
-		 * @param pass the password of the remote application server
 		 * @param host the server ip
 		 * @param db the database name
 		 * @param bDefault set this connection as a default connection
 		 * 
 		 * @throws Error Error if a connection with the same name allready exist.
 		 */
-		public function connect(name:String, user:String, pass:String, host:String, db:String, bDefault:Boolean = false):void
+		public function connect(name:String, host:String, db:String, bDefault:Boolean = false):void
 		{
 			if(this.connectionMap[name] == null)
 			{
-				this.connectionMap[name] = new ConnectionData(user, pass, host, db, name);
+				this.connectionMap[name] = new ConnectionData(host, db, name);
 				
 				if(bDefault) 
 					this.sDefaultConnection  = name;
@@ -106,7 +104,7 @@ package phi.db
 		
 		public function set connection(c:ConnectionData):void
 		{
-			connect(c.name, c.username, c.password, c.host, c.db, true);
+			connect(c.name, c.host, c.db, true);
 		}
 		
 		/**
