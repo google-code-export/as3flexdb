@@ -477,7 +477,7 @@ package phi.db
 		 	{
 		 		case Query.SELECT:
 		 		{
-		 			Records = evt.result as ArrayCollection;
+		 			Records = new ArrayCollection(evt.result as Array);
 		 			dispatchEvent(new Event(Query.QUERY_END));
 		 		}
 		 		break;
