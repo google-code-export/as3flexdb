@@ -507,6 +507,7 @@ package phi.db
 		 
 		 private function startConnection():void
 		 {
+		 	
 		 	conn.remoteObj.getOperation("query").addEventListener(FaultEvent.FAULT, onQueryFault);
 			conn.remoteObj.getOperation("query").addEventListener(ResultEvent.RESULT, onQueryEnd);
 			
