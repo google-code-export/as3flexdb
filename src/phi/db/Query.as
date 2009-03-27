@@ -4,6 +4,7 @@ package phi.db
 	import flash.events.EventDispatcher;
 	
 	import mx.collections.ArrayCollection;
+	import mx.rpc.IResponder;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	
@@ -83,9 +84,10 @@ package phi.db
 		
 		// Operation Constants
 		public static const SELECT	:String = "select";
-		public static const INSERT :String = "insert";
-		public static const UPDATE :String = "update";
+		public static const INSERT	:String = "insert";
+		public static const UPDATE	:String = "update";
 		public static const DELETE	:String = "delete";
+		public static const ERROR	:String = "error";
 		
 		// Last query
 		private var query :String;
@@ -107,6 +109,8 @@ package phi.db
 		
 		// Current operation
 		private var op :String = Query.SELECT;
+		
+		private var responder :IResponder;
 		
 		// The ID generated for an AUTO_INCREMENT
 		private var nLastID :Number;
@@ -201,7 +205,7 @@ package phi.db
 		 * 
 		 * @throws Error Error if there are any SQL errors.
 		 */
-		public function execute(q:String, option:String = Query.SELECT):void
+		public function execute(q:String, option:String = Query.SELECT, rs:IResponder=null):void
 		{
 			if(bExecute == true)
 			{
@@ -209,6 +213,7 @@ package phi.db
 				
 				obj.q 		= q;
 				obj.option	= option;
+				obj.rs		= rs;
 				
 				queryStack.push(obj);
 				return;
@@ -218,9 +223,10 @@ package phi.db
 			this.op    		= option;
 			this.step  		= 0;
 			this.bExecute	= true;
+			this.responder	= rs;
 						
 			startConnection();
-			conn.remoteObj.getOperation("query").send(q, conn.username, conn.password, conn.host, conn.db);
+			conn.remoteObj.getOperation("query").send(q, conn.host, conn.db, option);
 		}
 		
 		public function set q(s:String):void
@@ -265,7 +271,7 @@ package phi.db
 		 * 
 		 * @return the SQL generated from array.
 		 */
-		 public function arrayInsert(table:String, arr:Array):String
+		 public function arrayInsert(table:String, arr:Array, rs:IResponder=null):String
 		 {
 		 	var q		:String = "";
 		 	var keys 	:Array 	= new Array();
@@ -278,7 +284,7 @@ package phi.db
 		 	}
 		 	
 		 	q = 'INSERT INTO '+table+' (`'+keys.join('`,`')+'`) VALUES ("'+values.join('","')+'")';		 	
-		 	execute(q, Query.INSERT);
+		 	execute(q, Query.INSERT, rs);
 		 	
 		 	return q;
 		 }
@@ -321,7 +327,7 @@ package phi.db
 		 * 
 		 * @return the SQL generated from array.
 		 */
-		 public function arrayUpdate(table:String, arr:Array, cond:String):String
+		 public function arrayUpdate(table:String, arr:Array, cond:String, rs:IResponder=null):String
 		 {
 		 	var q		:String = "";
 		 	var body	:String = "";
@@ -332,7 +338,7 @@ package phi.db
 			body += "`"+arr[i].key+'` = "'+arr[i].value+'" ';
 		
 			q = "UPDATE "+table+" SET "+body+" WHERE "+cond;
-			execute(q, Query.UPDATE);
+			execute(q, Query.UPDATE, rs);
 			
 		 	return q;
 		 }
@@ -448,7 +454,7 @@ package phi.db
 		 	if(this.queryStack.length > 0)
 		 	{
 		 		var obj :Object = this.queryStack.shift();
-		 		this.execute(obj.q, obj.option);
+		 		this.execute(obj.q, obj.option, obj.rs);
 		 	}
 		 }
 		 
@@ -461,33 +467,43 @@ package phi.db
 		 }
 		 
 		 private function onQueryEnd(evt:ResultEvent):void
-		 {
-		 	// Check for SQL errors.
-		 	if(evt.result is String)
-		 	{
-		 		Records = null;
-		 		error	= evt.result as String;
-		 		dispatchEvent(new Event(Query.QUERY_ERROR));
-		 		
-		 		endConnection();
-		 		return;
-		 	}
-		 	
-		 	switch(this.op)
+		 {	 	
+		 	switch(evt.result.type)
 		 	{
 		 		case Query.SELECT:
 		 		{
-		 			Records = evt.result as ArrayCollection;
+		 			Records = new ArrayCollection(evt.result.records as Array);
+		 			
+		 			if(responder != null)
+		 				responder.result( records );
+		 			
+		 			// for older version	
 		 			dispatchEvent(new Event(Query.QUERY_END));
 		 		}
 		 		break;
 		 		
-		 		case Query.DELETE:
 		 		case Query.INSERT:
-		 		case Query.UPDATE:
 		 		{
-		 			nLastID = evt.result as Number;
+		 			nLastID = evt.result.lastInsertId as Number;
+		 			
+		 			if(responder != null)
+		 				responder.result( nLastID );
+		 				
 		 			dispatchEvent(new Event(Query.QUERY_END));
+		 		}
+		 		break;
+		 		
+		 		case Query.ERROR:
+		 		{
+		 			error = evt.result.error as String;
+		 			endConnection();
+		 			
+		 			if(responder != null)
+		 				responder.fault( error );
+		 				
+		 			//for older version
+		 			dispatchEvent(new Event(Query.QUERY_ERROR));
+		 			return;
 		 		}
 		 		break;
 		 	}
