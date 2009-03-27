@@ -493,6 +493,15 @@ package phi.db
 		 		}
 		 		break;
 		 		
+		 		case Query.UPDATE:
+		 		{
+		 			if(responder != null)
+		 				responder.result(null);
+		 				
+		 			dispatchEvent(new Event(Query.QUERY_END));
+		 		}
+		 		break;
+		 		
 		 		case Query.ERROR:
 		 		{
 		 			error = evt.result.error as String;
