@@ -88,6 +88,7 @@ package phi.db
 		public static const UPDATE	:String = "update";
 		public static const DELETE	:String = "delete";
 		public static const ERROR	:String = "error";
+		public static const MULTIPLE:String = "multiple";
 		
 		// Last query
 		private var query :String;
@@ -116,6 +117,8 @@ package phi.db
 		private var nLastID :Number;
 		
 		private var queryStack	:Array;
+		private var waitStack	:Array;
+		
 		private var bExecute	:Boolean;
 		
 		/**
@@ -129,7 +132,10 @@ package phi.db
 			this.error   = "";
 			
 			this.op		 = Query.SELECT;
+			
 			queryStack	 = new Array();
+			waitStack	 = new Array();
+			
 			bExecute	 = false;
 		}
 		
@@ -167,7 +173,30 @@ package phi.db
 			connect(db.getDefaultConnectionName(), db);
 		}
 		
+		public function set q(s:String):void
+		{
+			query = s;
+		}
+		
 		/**
+		 * Get the records selected with a previous <code>execute()</code> method.
+		 * 
+		 * @return a <code>ArrayCollection</code> with all selected records.
+		 */
+		 public function getRecords():ArrayCollection
+		 {
+		 	return records;
+		 }
+		 
+		 [Bindable (event="recordsChange")]
+		 public function get Records():ArrayCollection {return records;}
+		 public function set Records(r:ArrayCollection):void
+		 {
+		 	records = r;
+		 	dispatchEvent(new Event("recordsChange"));
+		 }
+		 
+		 /**
 		 * Execte a SQL statement.
 		 * 
 		 * Before executing the SQL statement this function dispatch a Query.QUERY_START
@@ -219,19 +248,32 @@ package phi.db
 				return;
 			}
 			
-			this.query 		= q;
-			this.op    		= option;
-			this.step  		= 0;
-			this.bExecute	= true;
-			this.responder	= rs;
+			query 		= q;
+			op    		= option;
+			step  		= 0;
+			bExecute	= true;
+			responder	= rs;
 						
-			startConnection();
+			startConnection("query");
 			conn.remoteObj.getOperation("query").send(q, conn.host, conn.db, option);
 		}
 		
-		public function set q(s:String):void
+		public function commit(rs:IResponder=null):void
 		{
-			query = s;
+			responder	= rs;
+			
+			startConnection("queryAll");
+			conn.remoteObj.getOperation("queryAll").send(waitStack, conn.host, conn.db);
+		}
+		
+		public function add(q:String, option:String = Query.SELECT):void
+		{
+			var obj :Object = new Object();
+			
+			obj.q = q;
+			obj.option = option;
+			
+			waitStack.push( obj );
 		}
 		
 		/**
@@ -271,7 +313,7 @@ package phi.db
 		 * 
 		 * @return the SQL generated from array.
 		 */
-		 public function arrayInsert(table:String, arr:Array, rs:IResponder=null):String
+		 public function arrayInsert(table:String, arr:Array, rs:IResponder=null, executeAfter:Boolean=true):String
 		 {
 		 	var q		:String = "";
 		 	var keys 	:Array 	= new Array();
@@ -284,7 +326,9 @@ package phi.db
 		 	}
 		 	
 		 	q = 'INSERT INTO '+table+' (`'+keys.join('`,`')+'`) VALUES ("'+values.join('","')+'")';		 	
-		 	execute(q, Query.INSERT, rs);
+		 	
+		 	if(executeAfter)
+		 		execute(q, Query.INSERT, rs);
 		 	
 		 	return q;
 		 }
@@ -343,23 +387,6 @@ package phi.db
 		 	return q;
 		 }
 		 
-		/**
-		 * Get the records selected with a previous <code>execute()</code> method.
-		 * 
-		 * @return a <code>ArrayCollection</code> with all selected records.
-		 */
-		 public function getRecords():ArrayCollection
-		 {
-		 	return records;
-		 }
-		 
-		 [Bindable (event="recordsChange")]
-		 public function get Records():ArrayCollection {return records;}
-		 public function set Records(r:ArrayCollection):void
-		 {
-		 	records = r;
-		 	dispatchEvent(new Event("recordsChange"));
-		 }
 		 
 		 /**
 		 * Get the next row from a previous selected records.
@@ -466,7 +493,7 @@ package phi.db
 		 	this.addEventListener(Query.QUERY_END, f);
 		 }
 		 
-		 private function onQueryEnd(evt:ResultEvent):void
+		 private function resultHandler(evt:ResultEvent):void
 		 {	 	
 		 	switch(evt.result.type)
 		 	{
@@ -479,8 +506,21 @@ package phi.db
 		 			
 		 			// for older version	
 		 			dispatchEvent(new Event(Query.QUERY_END));
+		 			break;
 		 		}
-		 		break;
+		 		
+		 		case Query.MULTIPLE:
+		 		{
+		 			Records = new ArrayCollection(evt.result.records as Array);
+		 			
+		 			if(responder != null)
+		 				responder.result( records );
+		 				
+		 			// for older version	
+		 			dispatchEvent(new Event(Query.QUERY_END));
+		 			break;	
+		 		}
+		 		
 		 		
 		 		case Query.INSERT:
 		 		{
@@ -490,8 +530,9 @@ package phi.db
 		 				responder.result( nLastID );
 		 				
 		 			dispatchEvent(new Event(Query.QUERY_END));
+		 			break;
 		 		}
-		 		break;
+		 		
 		 		
 		 		case Query.UPDATE:
 		 		{
@@ -499,8 +540,9 @@ package phi.db
 		 				responder.result(null);
 		 				
 		 			dispatchEvent(new Event(Query.QUERY_END));
+		 			break;
 		 		}
-		 		break;
+		 		
 		 		
 		 		case Query.ERROR:
 		 		{
@@ -514,7 +556,7 @@ package phi.db
 		 			dispatchEvent(new Event(Query.QUERY_ERROR));
 		 			return;
 		 		}
-		 		break;
+		 		
 		 	}
 		 	
 		 	endConnection();
@@ -525,16 +567,15 @@ package phi.db
 		 /**
 		 * 
 		 */
-		 private function onQueryFault(evt:FaultEvent):void
+		 private function faultHandler(evt:FaultEvent):void
 		 {
 		 	throw(evt.toString());
 		 }
 		 
-		 private function startConnection():void
+		 private function startConnection( operation:String ):void
 		 {
-		 	
-		 	conn.remoteObj.getOperation("query").addEventListener(FaultEvent.FAULT, onQueryFault);
-			conn.remoteObj.getOperation("query").addEventListener(ResultEvent.RESULT, onQueryEnd);
+		 	conn.remoteObj.getOperation(operation).addEventListener(FaultEvent.FAULT, faultHandler);
+			conn.remoteObj.getOperation(operation).addEventListener(ResultEvent.RESULT, resultHandler);
 			
 			dispatchEvent(new Event(Query.QUERY_START));
 			phiBusy.showBusy();
@@ -542,8 +583,8 @@ package phi.db
 		 
 		 private function endConnection():void
 		 {
-		 	conn.remoteObj.removeEventListener(FaultEvent.FAULT, onQueryFault);
-		 	conn.remoteObj.removeEventListener(ResultEvent.RESULT, onQueryEnd);
+		 	conn.remoteObj.removeEventListener(FaultEvent.FAULT, faultHandler);
+		 	conn.remoteObj.removeEventListener(ResultEvent.RESULT, resultHandler);
 		 	
 		 	//CursorManager.removeBusyCursor();
 		 	phiBusy.removeBusy();
