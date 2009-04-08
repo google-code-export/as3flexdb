@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Main class.
  */
@@ -13,6 +14,7 @@ class AS3FlexDB
 	var $SELECT		= "select";
 	var $INSERT		= "insert";
 	var $UPDATE		= "update";
+	var $MULTIPLE	= "multiple";
 	var $DELETE		= "delete";
 	var $ERROR		= "error";
 	
@@ -64,6 +66,25 @@ class AS3FlexDB
 		}
 		
 		$this->close($rsConnectionID);
+		return $res;
+	}
+	
+	/**
+	 * Execute multiple SQLs to database.
+	 * @returns an array of arrays
+	 */
+	function queryAll($querys, $host, $database)
+	{
+		$res = new AS3FlexDBResult();
+		$res->type = $this->MULTIPLE;
+		$res->records = array();
+		
+		foreach($querys as $q)
+		{
+			$tmp = $this->query($q['q'], $host, $database, $q['option']);
+			array_push($res->records, $tmp);
+		}
+		
 		return $res;
 	}
 	
