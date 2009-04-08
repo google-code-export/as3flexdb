@@ -533,7 +533,7 @@ package phi.db
 		 			break;
 		 		}
 		 		
-		 		
+		 		case Query.DELETE:
 		 		case Query.UPDATE:
 		 		{
 		 			if(responder != null)
