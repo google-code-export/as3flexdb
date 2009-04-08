@@ -127,7 +127,7 @@ package phi.interfaces
 		 * 
 		 * @return the SQL generated from array.
 		 */
-		 function arrayInsert(table:String, arr:Array, rs:IResponder=null):String;
+		 function arrayInsert(table:String, arr:Array, rs:IResponder=null, executeAfter:Boolean=true):String;
 		 
 		 /**
 		 * Execute a UPDATE query on a table.
@@ -204,6 +204,10 @@ package phi.interfaces
 		 function isStackEmpty():Boolean;
 		 
 		 function set queryEnd(f:Function):void
+		 
+		 // Add multiple query execute
+		 function add(q:String, option:String = "select"):void;
+		 function commit(rs:IResponder=null):void;
 		
 	}
 }
