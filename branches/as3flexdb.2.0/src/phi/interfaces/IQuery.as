@@ -133,7 +133,7 @@ package phi.interfaces
 		 * Execute a UPDATE query on a table.
 		 * 
 		 */
-		 function arrayUpdate(table:String, arr:Array, cond:String, rs:IResponder=null):String;
+		 function arrayUpdate(table:String, arr:Array, cond:String, rs:IResponder=null, executeAfter:Boolean=true):String;
 		 
 		/**
 		 * Get the records selected with a previous <code>execute()</code> method.
