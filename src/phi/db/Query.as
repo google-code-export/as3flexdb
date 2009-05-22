@@ -371,7 +371,7 @@ package phi.db
 		 * 
 		 * @return the SQL generated from array.
 		 */
-		 public function arrayUpdate(table:String, arr:Array, cond:String, rs:IResponder=null):String
+		 public function arrayUpdate(table:String, arr:Array, cond:String, rs:IResponder=null, executeAfter:Boolean=true):String
 		 {
 		 	var q		:String = "";
 		 	var body	:String = "";
@@ -382,7 +382,9 @@ package phi.db
 			body += "`"+arr[i].key+'` = "'+arr[i].value+'" ';
 		
 			q = "UPDATE "+table+" SET "+body+" WHERE "+cond;
-			execute(q, Query.UPDATE, rs);
+			
+			if(executeAfter)
+				execute(q, Query.UPDATE, rs);
 			
 		 	return q;
 		 }
