@@ -2,6 +2,8 @@ package phi.db
 {
 	import mx.rpc.remoting.RemoteObject;
 	
+	import phi.PhiServer;
+	
 	
 	/**
 	 * A class for storing a connection information.<BR>
@@ -32,8 +34,11 @@ package phi.db
   		 */
 		public function ConnectionData(host:String="", db:String="", name:String="default")
 		{
-			this.remoteObj = new RemoteObject(DESTINATION);
-			this.remoteObj.source = SOURCE;
+			remoteObj = new RemoteObject(DESTINATION);
+			remoteObj.source = SOURCE;
+			
+			if( PhiServer.getChannelSet().channels.length > 0 )
+				remoteObj.channelSet = PhiServer.getChannelSet();
 			
 			this.name		= name;
 			this.host 		= host;
