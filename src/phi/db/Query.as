@@ -264,6 +264,8 @@ package phi.db
 			
 			startConnection("queryAll");
 			conn.remoteObj.getOperation("queryAll").send(waitStack, conn.host, conn.db);
+			
+			waitStack = new Array();
 		}
 		
 		public function add(q:String, option:String = Query.SELECT):void
