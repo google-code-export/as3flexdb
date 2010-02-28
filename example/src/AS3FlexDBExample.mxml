@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application width="600"
+				height="400"
+				creationComplete="creationCompleteHandler()"
+				xmlns:mx="http://www.adobe.com/2006/mxml"
+				layout="vertical">
+
+	<mx:Button label="Get Users" click="getUsers()"/>
+	<mx:HBox>
+		<mx:Label text="Add user:" />
+		<mx:TextInput id="usernameTi" />
+		<mx:Button label="Add user" click="addUser()" />
+ 	</mx:HBox>
+
+	<mx:HBox>
+		<mx:Label text="Update user:" />
+		<mx:TextInput id="idUserTi" width="30" />
+		<mx:TextInput id="usernameUpTi" />
+		<mx:Button label="Update user" click="updateUser()" />
+	</mx:HBox>
+
+	<mx:DataGrid id="dg1" dataProvider="{users}">
+		<mx:columns>
+			<mx:DataGridColumn headerText="#ID" dataField="idUser" />
+			<mx:DataGridColumn headerText="Username" dataField="username" />
+			<mx:DataGridColumn headerText="Password" dataField="password" />
+		</mx:columns>
+	</mx:DataGrid>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import phi.framework.sql.*;
+
+			[Bindable]
+			protected var users :ArrayCollection = new ArrayCollection();
+			
+			// Create a connection
+			protected function creationCompleteHandler():void
+			{
+				var sqlAdapter :ISQLAdapter = new MySQLAdapter( "localhost", "dbtest" ); // The username and password will be in the php service.
+				var sqlConn :SQLConnection = new SQLConnection( sqlAdapter );
+								
+				// We will save this connection and uset as default.
+				SQLConnectionManager.getInstance().saveConnection( "conn1", sqlConn, true );
+			}
+
+			protected function getUsers() :void
+			{
+				var sqlStatement :SQLStatement = new SQLStatement();
+				
+				sqlStatement.sqlConnection = SQLConnectionManager.getInstance().getDefaultConnection();
+				sqlStatement.text = "SELECT * FROM users WHERE 1";
+				//sqlStatement.text = "SELECT * FROM users WHERE idUser = ? AND username = ?";
+				//sqlStatement.parameters[0] = 1;
+				//sqlStatement.parameters[1] = "ghalex";
+				
+				sqlStatement.addEventListener( SQLEvent.SQL_RESULT, sqlResultHandler );
+				sqlStatement.addEventListener( SQLErrorEvent.SQL_ERROR, sqlErrorHandler );
+
+				sqlStatement.execute();
+			}
+			
+			public function addUser():void
+			{
+				var sqlStatement :SQLStatement = new SQLStatement();
+				var insertArray	 :Array = new Array();
+				
+				insertArray.username = usernameTi.text;
+				insertArray.password = "pass";
+				
+				sqlStatement.sqlConnection = SQLConnectionManager.getInstance().getDefaultConnection();
+				sqlStatement.text = SQLHelper.arrayInsert( "users", insertArray );
+				
+				sqlStatement.addEventListener( SQLEvent.SQL_RESULT, sqlResultHandler );
+				sqlStatement.addEventListener( SQLErrorEvent.SQL_ERROR, sqlErrorHandler );
+				
+				sqlStatement.execute();
+				
+				sqlStatement.text = "SELECT * FROM users WHERE 1";
+				sqlStatement.execute();
+			}
+			
+			public function updateUser():void
+			{
+				var sqlStatement :SQLStatement = new SQLStatement();
+				var updateArray	 :Array = new Array();
+				updateArray.username = usernameUpTi.text;
+				
+				sqlStatement.sqlConnection = SQLConnectionManager.getInstance().getDefaultConnection();
+				sqlStatement.text = SQLHelper.arrayUpdate( "users", updateArray, "idUser = "+idUserTi.text );
+				
+				sqlStatement.addEventListener( SQLEvent.SQL_RESULT, sqlResultHandler );
+				sqlStatement.addEventListener( SQLErrorEvent.SQL_ERROR, sqlErrorHandler );
+				
+				sqlStatement.execute();
+			}
+			
+			protected function sqlResultHandler( event:SQLEvent ):void
+			{
+				var result :SQLResult = event.result;
+				
+				switch( result.type )
+				{
+					case SQLType.SELECT:
+					{
+						users.removeAll();
+						
+						// trace result
+						for each( var item :Object in result.data )
+							users.addItem( item );
+						
+						break;
+					}
+						
+					case SQLType.INSERT:
+					{
+						// trace generated ID
+						trace( result.lastInsertID );
+						
+						//getUsers();
+						break;
+					}
+						
+					case SQLType.UPDATE:
+					{
+						trace( "Update complete")
+						trace( "Affected rows: " + result.rowsAffected );
+						
+						getUsers();
+						break;
+					}
+				}
+				
+			}
+			
+			protected function sqlErrorHandler( event:SQLErrorEvent ):void
+			{
+				trace("ERROR");	
+			}
+			
+		]]>
+	</mx:Script>
+
+
+
+</mx:Application>
