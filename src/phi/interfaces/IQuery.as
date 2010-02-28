@@ -3,6 +3,7 @@ package phi.interfaces
 	import flash.events.IEventDispatcher;
 	
 	import mx.collections.ArrayCollection;
+	import mx.rpc.IResponder;
 	
 	import phi.db.ConnectionData;
 	
@@ -86,7 +87,7 @@ package phi.interfaces
 		 * 
 		 * @throws Error Error if there are any SQL errors.
 		 */
-		function execute(q:String, option:String = "select"):void;
+		function execute(q:String, option:String = "select", rs:IResponder=null):void;
 		function set q(s:String):void;
 		
 		/**
@@ -126,13 +127,13 @@ package phi.interfaces
 		 * 
 		 * @return the SQL generated from array.
 		 */
-		 function arrayInsert(table:String, arr:Array):String;
+		 function arrayInsert(table:String, arr:Array, rs:IResponder=null, executeAfter:Boolean=true):String;
 		 
 		 /**
 		 * Execute a UPDATE query on a table.
 		 * 
 		 */
-		 function arrayUpdate(table:String, arr:Array, cond:String):String;
+		 function arrayUpdate(table:String, arr:Array, cond:String, rs:IResponder=null, executeAfter:Boolean=true):String;
 		 
 		/**
 		 * Get the records selected with a previous <code>execute()</code> method.
@@ -203,6 +204,10 @@ package phi.interfaces
 		 function isStackEmpty():Boolean;
 		 
 		 function set queryEnd(f:Function):void
+		 
+		 // Add multiple query execute
+		 function add(q:String, option:String = "select"):void;
+		 function commit(rs:IResponder=null):void;
 		
 	}
 }
