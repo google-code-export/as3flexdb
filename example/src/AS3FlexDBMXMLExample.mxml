@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application width="600"
+				height="400"
+				xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:as3flexdb="phi.framework.sql.*"
+				layout="vertical">
+
+	<mx:Button label="Get Users" click="st1.execute()"/>
+	
+	<mx:DataGrid id="dg1" dataProvider="{users}">
+		<mx:columns>
+			<mx:DataGridColumn headerText="#ID" dataField="idUser" />
+			<mx:DataGridColumn headerText="Username" dataField="username" />
+			<mx:DataGridColumn headerText="Password" dataField="password" />
+		</mx:columns>
+	</mx:DataGrid>
+	
+	<!-- ++++++++++++++++++++++++++++ -->
+	<!-- AS3FlexDB code -->
+	
+	<as3flexdb:MySQLAdapter id="defaultAdapter" host="localhost" database="dbtest"/>
+	<as3flexdb:SQLConnection id="conn1" sqlAdapter="{defaultAdapter}"/>
+
+	<as3flexdb:SQLStatement id="st1"
+							sqlConnection="{conn1}"
+							text="SELECT * FROM users WHERE 1"
+							sqlResult="sqlResultHandler(event)"
+							sqlError="sqlErrorHandler(event)"/>
+
+	<mx:Script>
+		<![CDATA[
+			
+			import phi.framework.sql.*;
+			import mx.collections.ArrayCollection;
+			
+			
+			[Bindable]
+			protected var users :ArrayCollection = new ArrayCollection();
+			
+			protected function sqlResultHandler(event:SQLEvent):void
+			{
+				var result :SQLResult = event.result;
+				
+				users.removeAll();
+						
+				// trace result
+				for each( var item :Object in result.data )
+					users.addItem( item );
+			}
+			
+
+			protected function sqlErrorHandler(event:SQLErrorEvent):void
+			{
+				trace( event.error );	
+			}
+
+		]]>
+	</mx:Script>
+</mx:Application>
