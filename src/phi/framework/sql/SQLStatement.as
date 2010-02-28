@@ -6,6 +6,27 @@ package phi.framework.sql
 	import mx.rpc.AsyncResponder;
 	import mx.rpc.AsyncToken;
 
+	/**
+	 *  Dispatched after the SQL statement was executed.
+	 * 
+	 * <P>The SQL_RESULT event is dispatched when the 
+	 * <code>execute()</code> method is called.<BR>
+	 * At the time when this event is sent, the <code>SQLStatement</code> object has been
+	 * retrieve the records if a SELECT statements was execute or the last inserted id
+	 * if a INSERT statement was execute.</P>
+	 * 
+	 * @eventType phi.framework.sql.SQLEvent
+	 */
+	[Event(name="sqlResult", type="phi.framework.sql.SQLEvent")]
+	
+	/**
+	 *  Dispatched if any error occurs.
+	 * 
+	 * @eventType phi.framework.sql.SQLErrorEvent
+	 */
+	[Event(name="sqlError", type="phi.framework.sql.SQLErrorEvent")]
+
+	
 	public class SQLStatement extends EventDispatcher
 	{
 		protected var _sqlConnection :SQLConnection = null;
