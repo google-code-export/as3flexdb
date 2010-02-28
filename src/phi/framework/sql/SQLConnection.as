@@ -7,10 +7,13 @@ package phi.framework.sql
 		protected var _remoteObj	:RemoteObject;
 		protected var _sqlAdapter 	:ISQLAdapter;
 		
-		public function SQLConnection( adapter:ISQLAdapter )
+		public function SQLConnection( adapter:ISQLAdapter=null )
 		{
-			sqlAdapter = adapter;
-			connect();
+			if( adapter )
+			{
+				sqlAdapter = adapter;
+				connect();
+			}
 		}
 		
 		public function connect():void
@@ -23,6 +26,7 @@ package phi.framework.sql
 		public function set sqlAdapter( value:ISQLAdapter ):void
 		{
 			_sqlAdapter = value;
+			connect();
 		}
 		
 		public function get sqlAdapter():ISQLAdapter
