@@ -102,7 +102,7 @@ package phi.framework.sql
 		{
 			var host :String = sqlConnection.sqlAdapter.host;
 			var database :String = sqlConnection.sqlAdapter.database;
-			var token :AsyncToken = null
+			var t :AsyncToken = null
 			var q :String = "";
 			
 			if( sql == "" )
@@ -116,11 +116,12 @@ package phi.framework.sql
 			}
 			else
 			{
+				isExecuting = true;
 				
-				token = sqlConnection.remoteObj.query( q, host, database );
+				t = sqlConnection.remoteObj.query( q, host, database );
 				CursorManager.setBusyCursor();
 			
-				token.addResponder(
+				t.addResponder(
 					new AsyncResponder(
 						resultHandler,
 						faultHandler,
@@ -154,7 +155,7 @@ package phi.framework.sql
 		// Async handlers
 		//-----------------------------------------
 		
-		protected function resultHandler( data:Object, token:Object ):void
+		protected function resultHandler( data:Object, q:Object ):void
 		{
 			CursorManager.removeBusyCursor();
 			
@@ -171,7 +172,7 @@ package phi.framework.sql
 			
 			// If no error
 			var event	:SQLEvent = new SQLEvent();	
-			var result	:SQLResult = new SQLResult( this, data.result, String( token ) );
+			var result	:SQLResult = new SQLResult( this, data.result, String( q ) );
 			result.token = token;
 						
 			event.result = result;

@@ -23,6 +23,16 @@ package phi.framework.sql
 			_remoteObj.source = sqlAdapter.service.source;
 		}
 		
+		public function set defaultConnection( value:Boolean ):void
+		{
+			if( value )
+				SQLConnectionManager.getInstance().saveConnection(
+					"default", 
+					this, 
+					true
+				);
+		}
+		
 		public function set sqlAdapter( value:ISQLAdapter ):void
 		{
 			_sqlAdapter = value;
