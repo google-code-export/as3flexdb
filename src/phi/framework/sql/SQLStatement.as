@@ -98,7 +98,7 @@ package phi.framework.sql
 			return _result;
 		}
 		
-		public function execute( sql:String=""):void
+		public function execute( sql:String="", tok:Object=null):void
 		{
 			var host :String = sqlConnection.sqlAdapter.host;
 			var database :String = sqlConnection.sqlAdapter.database;
@@ -110,9 +110,12 @@ package phi.framework.sql
 			else
 				q = sql;
 			
+			if( !tok )
+				tok = token;
+			
 			if( isExecuting )
 			{
-				_waitingStack.push( q );
+				_waitingStack.push( {sql: q, token: tok} );
 			}
 			else
 			{
@@ -125,7 +128,7 @@ package phi.framework.sql
 					new AsyncResponder(
 						resultHandler,
 						faultHandler,
-						q
+						{sql: q, token: tok}
 					)
 				);
 			}
@@ -136,7 +139,10 @@ package phi.framework.sql
 		protected function executeNext():void
 		{
 			if( _waitingStack.length > 0 )
-				execute( _waitingStack.shift() );
+			{
+				var extra :Object = _waitingStack.shift();
+				execute( extra.sql, extra.token );
+			}
 		}
 		
 		protected function substituteText():String
@@ -155,7 +161,7 @@ package phi.framework.sql
 		// Async handlers
 		//-----------------------------------------
 		
-		protected function resultHandler( data:Object, q:Object ):void
+		protected function resultHandler( data:Object, extra:Object ):void
 		{
 			CursorManager.removeBusyCursor();
 			
@@ -172,8 +178,8 @@ package phi.framework.sql
 			
 			// If no error
 			var event	:SQLEvent = new SQLEvent();	
-			var result	:SQLResult = new SQLResult( this, data.result, String( q ) );
-			result.token = token;
+			var result	:SQLResult = new SQLResult( this, data.result, String( extra.sql ) );
+			result.token = extra.token;
 						
 			event.result = result;
 			dispatchEvent( event );
