@@ -30,6 +30,13 @@ package phi.framework.sql
 			result = "UPDATE "+table+" SET "+body+" WHERE "+cond;
 			return result;	
 		}
+		
+		static public function addslashes( str:String ):String
+		{
+			return str.replace(/([\\"'])/g, "\\$1").replace(/\0/g, "\\0");
+		}
+		
+
 			
 	}
 }
