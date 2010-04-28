@@ -152,7 +152,16 @@ package phi.framework.sql
 			var regEx :RegExp = /\?/;
 			
 			for ( i=0; i<parameters.length; i++ )
-				result = result.replace( regEx, '"' + parameters[i] + '"' );
+			{
+				var replaceWith :String = "";
+				
+				if( parameters[i] is Number )
+					replaceWith = parameters[i];
+				else if( parameters[i] is String )
+					replaceWith = '"' + parameters[i] + '"';
+				
+				result = result.replace( regEx, replaceWith );
+			}
 			
 			return result;
 		}
