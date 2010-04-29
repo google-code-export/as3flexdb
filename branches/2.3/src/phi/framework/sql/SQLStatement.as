@@ -173,6 +173,7 @@ package phi.framework.sql
 		protected function resultHandler( data:Object, extra:Object ):void
 		{
 			CursorManager.removeBusyCursor();
+			isExecuting = false;
 			
 			var resultType :String = data.result.type;
 			
@@ -192,8 +193,6 @@ package phi.framework.sql
 						
 			event.result = result;
 			dispatchEvent( event );
-			
-			isExecuting = false;
 			
 			executeNext();
 			return;
