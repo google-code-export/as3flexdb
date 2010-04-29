@@ -6,15 +6,21 @@ package phi.framework.sql
 		{
 			var result :String = "";
 			var keys :Array = new Array();
-			var values :Array = new Array();
+			var values :String = "";
 			
 			for( var item:String in array )
 			{
 				keys.push( item );
-				values.push( array[item] );
+				
+				if( array[item] is Number )
+					values += array[item].toString() + ', ';
+				else 
+					values += '"' + array[item].toString() + '", ';
 			}
 			
-			result = 'INSERT INTO '+table+' (`'+keys.join('`,`')+'`) VALUES ("'+values.join('","')+'");';		
+			values = values.substr(0, values.length-2 );
+			
+			result = 'INSERT INTO `'+ table +'` (`'+keys.join('`,`')+'`) VALUES ('+ values +');';		
 			return result;
 		}
 		
