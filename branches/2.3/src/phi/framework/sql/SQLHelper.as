@@ -14,7 +14,7 @@ package phi.framework.sql
 				values.push( array[item] );
 			}
 			
-			result = 'INSERT INTO '+table+' (`'+keys.join('`,`')+'`) VALUES ("'+values.join('","')+'")';		
+			result = 'INSERT INTO '+table+' (`'+keys.join('`,`')+'`) VALUES ("'+values.join('","')+'");';		
 			return result;
 		}
 		
@@ -24,10 +24,18 @@ package phi.framework.sql
 			var body :String = "";
 			
 			for( var item:String in array )
-				body += "`"+item+'` = "'+array[item]+'", ';
+			{
+				var value :String = "";
+				if( array[item] is Number )
+					value = array[item];
+				else if (array[item] is String )
+					value = '"'+ array[item] +'"';
+				
+				body += "`"+item+'` = ' + value +', ';
+			}
 			
 			body = body.substr(0, body.length-2 );
-			result = "UPDATE "+table+" SET "+body+" WHERE "+cond;
+			result = "UPDATE "+table+" SET "+body+" WHERE "+cond+";";
 			return result;	
 		}
 		
