@@ -6,7 +6,7 @@ package phi.framework.sql
 		public function MySQLAdapter( server:String="", database:String="" )
 		{
 			super( server, database );
-			_service = new SQLDefaultService();
+			service = new SQLDefaultService();
 		}
 		
 	}

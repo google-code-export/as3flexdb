@@ -17,6 +17,11 @@ package phi.framework.sql
 			return _service;
 		}
 		
+		public function set service( value:ISQLService ):void
+		{
+			_service = value;
+		}
+		
 		public function set host( value:String ):void
 		{
 			_server = value;	

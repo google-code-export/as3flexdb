@@ -14,6 +14,8 @@ package phi.framework.sql
 				
 				if( array[item] is Number )
 					values += array[item].toString() + ', ';
+				else if( array[item] is SQLFunction )
+					values += array[item].f + ', ';
 				else 
 					values += '"' + array[item].toString() + '", ';
 			}
@@ -34,7 +36,9 @@ package phi.framework.sql
 				var value :String = "";
 				if( array[item] is Number )
 					value = array[item];
-				else if (array[item] is String )
+				else if( array[item] is SQLFunction )
+					value += array[item].f + ', ';
+				else
 					value = '"'+ array[item] +'"';
 				
 				body += "`"+item+'` = ' + value +', ';
