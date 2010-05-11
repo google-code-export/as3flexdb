@@ -13,10 +13,31 @@ package phi.framework.sql
 		
 		public function toString():String
 		{
-			var result :String = name + "();"; 
+			var result :String = name + "()"; 
+			var parsedArgs :Array = [];
 			
 			if( args )
-				result = name + "("+ args.join(',') +")";  
+			{
+				for each( var item :* in args )
+					parsedArgs.push( itemToString( item ));
+					
+				result = name + "("+ parsedArgs.join(',') +")";
+			}
+			
+			return result;
+		}
+		
+		protected function itemToString( item:* ):String
+		{
+			var result :String = "";
+			
+			if( item is Number )
+				result = Number(item).toString();
+			else 
+				if( item is SQLFunction )
+					result = SQLFunction( item ).toString();
+				else
+					result = '"'+ String(item) +'"';
 			
 			return result;
 		}

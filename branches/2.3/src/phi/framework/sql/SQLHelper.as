@@ -1,52 +1,42 @@
 package phi.framework.sql
 {
+	import mx.utils.StringUtil;
+
 	public class SQLHelper
 	{
 		static public function arrayInsert( table:String, array:Object ):String
 		{
-			var result :String = "";
-			var keys :Array = new Array();
-			var values :String = "";
+			var result 	:String = "INSERT INTO `{0}` (`{1}`) VALUES ({2});";
+			var keys 	:Array = [];
+			var values 	:Array = [];
 			
-			for( var item:String in array )
+			for( var key:String in array )
 			{
-				keys.push( item );
-				
-				if( array[item] is Number )
-					values += array[item].toString() + ', ';
-				else if( array[item] is SQLFunction )
-					values += array[item].toString() + ', ';
-				else 
-					values += '"' + array[item].toString() + '", ';
+				keys.push( key );
+				values.push( SQLHelper.itemToString( array[key] ));
 			}
 			
-			values = values.substr(0, values.length-2 );
-			
-			result = 'INSERT INTO `'+ table +'` (`'+keys.join('`,`')+'`) VALUES ('+ values +');';		
-			return result;
+			return StringUtil.substitute( result, table, keys.join('`,`'), values.join(','));
 		}
 		
+		/**
+		 * Return a UPDATE SQL from a array.
+		 * 
+		 * @param table
+		 * @param array
+		 * @param cond
+		 * @return 
+		 */
 		static public function arrayUpdate( table:String, array:Object, cond:String ):String
 		{
-			var result :String = "";
-			var body :String = "";
+			var result :String = "UPDATE `{0}` SET {1} WHERE {2};";
+			var updateBody :String = "";
 			
-			for( var item:String in array )
-			{
-				var value :String = "";
-				if( array[item] is Number )
-					value = array[item];
-				else if( array[item] is SQLFunction )
-					value += array[item].toString() + ', ';
-				else
-					value = '"'+ array[item] +'"';
-				
-				body += "`"+item+'` = ' + value +', ';
-			}
+			for( var key :String in array )
+				updateBody += "`"+ key +'` = ' + SQLHelper.itemToString( array[key] ) + ', ';
 			
-			body = body.substr(0, body.length-2 );
-			result = "UPDATE "+table+" SET "+body+" WHERE "+cond+";";
-			return result;	
+			updateBody = updateBody.substr(0, updateBody.length-2 );
+			return StringUtil.substitute( result, table, updateBody, cond );	
 		}
 		
 		static public function addslashes( str:String ):String
@@ -54,6 +44,20 @@ package phi.framework.sql
 			return str.replace(/([\\"'])/g, "\\$1").replace(/\0/g, "\\0");
 		}
 		
+		static public function itemToString( item:* ):String
+		{
+			var result :String = "";
+			
+			if( item is Number )
+				result = Number(item).toString();
+			else 
+				if( item is SQLFunction )
+					result = SQLFunction( item ).toString();
+				else
+					result = '"'+ String(item) +'"';
+			
+			return result;
+		}
 
 			
 	}
