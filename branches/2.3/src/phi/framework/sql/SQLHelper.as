@@ -15,7 +15,7 @@ package phi.framework.sql
 				if( array[item] is Number )
 					values += array[item].toString() + ', ';
 				else if( array[item] is SQLFunction )
-					values += array[item].f + ', ';
+					values += array[item].toString() + ', ';
 				else 
 					values += '"' + array[item].toString() + '", ';
 			}
@@ -37,7 +37,7 @@ package phi.framework.sql
 				if( array[item] is Number )
 					value = array[item];
 				else if( array[item] is SQLFunction )
-					value += array[item].f + ', ';
+					value += array[item].toString() + ', ';
 				else
 					value = '"'+ array[item] +'"';
 				
