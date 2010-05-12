@@ -75,6 +75,9 @@ package phi.framework.sql
 		
 		public function get sqlConnection():SQLConnection
 		{
+			if( !_sqlConnection )
+				return SQLConnectionManager.getInstance().getDefaultConnection();
+			
 			return _sqlConnection;	
 		}
 		
