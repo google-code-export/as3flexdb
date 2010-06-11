@@ -1,11 +1,13 @@
 package phi.framework.sql
 {
+	import mx.messaging.ChannelSet;
 	import mx.rpc.remoting.RemoteObject;
 
 	public class SQLConnection
 	{
 		protected var _remoteObj	:RemoteObject;
 		protected var _sqlAdapter 	:ISQLAdapter;
+		protected var _channel		:ChannelSet = new ChannelSet();
 		
 		public function SQLConnection( adapter:ISQLAdapter=null )
 		{
@@ -19,8 +21,12 @@ package phi.framework.sql
 		public function connect():void
 		{
 			_remoteObj = new RemoteObject();
+			
 			_remoteObj.destination = sqlAdapter.service.destination;
 			_remoteObj.source = sqlAdapter.service.source;
+			
+			if( _channel.channels.length )
+				remoteObj.channelSet = _channel;
 		}
 		
 		public function set defaultConnection( value:Boolean ):void
@@ -37,6 +43,16 @@ package phi.framework.sql
 		{
 			_sqlAdapter = value;
 			connect();
+		}
+		
+		public function set channel( value:ChannelSet ):void
+		{
+			_channel = value;
+		}
+		
+		public function get channel():ChannelSet
+		{
+			return _channel;
 		}
 		
 		public function get sqlAdapter():ISQLAdapter
