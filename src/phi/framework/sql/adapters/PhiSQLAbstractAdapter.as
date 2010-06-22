@@ -2,14 +2,14 @@ package phi.framework.sql.adapters
 {
 	import phi.framework.sql.services.ISQLService;
 
-	public class SQLAbstractAdapter 
+	public class PhiSQLAbstractAdapter 
 		implements ISQLAdapter
 	{
 		protected var _server 	  :String;
 		protected var _database   :String;
 		protected var _service 	  :ISQLService;
 		
-		public function SQLAbstractAdapter( server:String="", database:String="")
+		public function PhiSQLAbstractAdapter( server:String="", database:String="")
 		{
 			this.host = server;
 			this.database = database;

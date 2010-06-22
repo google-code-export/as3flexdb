@@ -2,23 +2,26 @@
 <flexLibProperties includeAllClasses="false" version="3">
   <includeClasses>
     <classEntry path="phi.framework.sql.adapters.ISQLAdapter"/>
-    <classEntry path="phi.framework.sql.services.ISQLService"/>
     <classEntry path="phi.framework.sql.adapters.PhiMySQLAdapter"/>
+    <classEntry path="phi.framework.sql.adapters.PhiSQLAbstractAdapter"/>
     <classEntry path="phi.framework.sql.core.PhiSQLConnection"/>
     <classEntry path="phi.framework.sql.core.PhiSQLConnectionManager"/>
-    <classEntry path="phi.framework.sql.events.PhiSQLErrorEvent"/>
     <classEntry path="phi.framework.sql.core.PhiSQLEvent"/>
     <classEntry path="phi.framework.sql.core.PhiSQLFunction"/>
-    <classEntry path="phi.framework.sql.helpers.PhiSQLHelper"/>
     <classEntry path="phi.framework.sql.core.PhiSQLResult"/>
     <classEntry path="phi.framework.sql.core.PhiSQLStatement"/>
     <classEntry path="phi.framework.sql.core.PhiSQLType"/>
-    <classEntry path="phi.framework.sql.adapters.SQLAbstractAdapter"/>
-    <classEntry path="phi.framework.sql.services.SQLAbstractService"/>
-    <classEntry path="phi.framework.sql.services.SQLCustomSerivice"/>
-    <classEntry path="phi.framework.sql.services.SQLDefaultService"/>
+    <classEntry path="phi.framework.sql.events.PhiSQLErrorEvent"/>
+    <classEntry path="phi.framework.sql.helpers.PhiArrayTable"/>
+    <classEntry path="phi.framework.sql.helpers.PhiSQLHelper"/>
     <classEntry path="phi.framework.sql.helpers.PhiTable"/>
+    <classEntry path="phi.framework.sql.services.ISQLService"/>
+    <classEntry path="phi.framework.sql.services.PhiSQLCustomSerivice"/>
+    <classEntry path="phi.framework.sql.services.SQLAbstractService"/>
+    <classEntry path="phi.framework.sql.services.SQLDefaultService"/>
   </includeClasses>
   <includeResources/>
-  <namespaceManifests/>
+  <namespaceManifests>
+    <namespaceManifestEntry manifest="manifest.xml" namespace="http://www.phimento.com/2009/mxml"/>
+  </namespaceManifests>
 </flexLibProperties>
