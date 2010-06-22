@@ -1,6 +1,6 @@
 package phi.framework.sql
 {
-	public class SQLType
+	public class PhiSQLType
 	{
 		static public const SELECT :String = "select";
 		static public const INSERT :String = "insert";

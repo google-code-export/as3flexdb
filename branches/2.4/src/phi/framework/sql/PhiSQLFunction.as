@@ -1,11 +1,11 @@
 package phi.framework.sql
 {
-	public class SQLFunction
+	public class PhiSQLFunction
 	{
 		public var name :String;
 		public var args :Array;
 		
-		public function SQLFunction( name:String, args:Array=null )
+		public function PhiSQLFunction( name:String, args:Array=null )
 		{
 			this.name = name;
 			this.args = args;
@@ -34,8 +34,8 @@ package phi.framework.sql
 			if( item is Number )
 				result = Number(item).toString();
 			else 
-				if( item is SQLFunction )
-					result = SQLFunction( item ).toString();
+				if( item is PhiSQLFunction )
+					result = PhiSQLFunction( item ).toString();
 				else
 					result = '"'+ String(item) +'"';
 			

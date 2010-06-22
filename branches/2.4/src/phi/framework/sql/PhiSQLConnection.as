@@ -3,13 +3,13 @@ package phi.framework.sql
 	import mx.messaging.ChannelSet;
 	import mx.rpc.remoting.RemoteObject;
 
-	public class SQLConnection
+	public class PhiSQLConnection
 	{
 		protected var _remoteObj	:RemoteObject;
 		protected var _sqlAdapter 	:ISQLAdapter;
 		protected var _channel		:ChannelSet = new ChannelSet();
 		
-		public function SQLConnection( adapter:ISQLAdapter=null )
+		public function PhiSQLConnection( adapter:ISQLAdapter=null )
 		{
 			if( adapter )
 			{
@@ -32,7 +32,7 @@ package phi.framework.sql
 		public function set defaultConnection( value:Boolean ):void
 		{
 			if( value )
-				SQLConnectionManager.getInstance().saveConnection(
+				PhiSQLConnectionManager.getInstance().saveConnection(
 					"default", 
 					this, 
 					true

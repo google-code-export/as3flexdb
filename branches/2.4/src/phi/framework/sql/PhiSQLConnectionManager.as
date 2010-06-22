@@ -1,14 +1,14 @@
 package phi.framework.sql
 {
-	public class SQLConnectionManager
+	public class PhiSQLConnectionManager
 	{
 		static private const SINGLETON_EXCEPTION :String = "This class is a singleton";
-		static private var instance :SQLConnectionManager;
+		static private var instance :PhiSQLConnectionManager;
 		
-		protected var defaultConnection :SQLConnection = null;
+		protected var defaultConnection :PhiSQLConnection = null;
 		protected var connections :Array = new Array();
 		
-		public function SQLConnectionManager()
+		public function PhiSQLConnectionManager()
 		{
 			if ( instance != null )
 				throw new Error( SINGLETON_EXCEPTION );
@@ -16,15 +16,15 @@ package phi.framework.sql
 			instance = this;
 		}
 		
-		static public function getInstance() :SQLConnectionManager
+		static public function getInstance() :PhiSQLConnectionManager
 		{
 			if ( instance == null )
-				instance = new SQLConnectionManager();
+				instance = new PhiSQLConnectionManager();
 			
 			return instance;
 		}
 		
-		public function saveConnection( name:String, connection:SQLConnection, useAsDefault:Boolean=false ):void
+		public function saveConnection( name:String, connection:PhiSQLConnection, useAsDefault:Boolean=false ):void
 		{
 			connections[ name ] = connection;
 			
@@ -32,12 +32,12 @@ package phi.framework.sql
 				defaultConnection = connection;
 		}
 		
-		public function getConnection( name:String ):SQLConnection
+		public function getConnection( name:String ):PhiSQLConnection
 		{
 			return connections[ name ];
 		}
 		
-		public function getDefaultConnection():SQLConnection
+		public function getDefaultConnection():PhiSQLConnection
 		{
 			return defaultConnection;
 		}

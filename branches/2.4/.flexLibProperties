@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="true" version="3">
+<flexLibProperties includeAllClasses="false" version="3">
   <includeClasses>
-    <classEntry path="phi.framework.sql.SQLConnection"/>
-    <classEntry path="phi.framework.sql.SQLStatement"/>
-    <classEntry path="phi.framework.sql.SQLEvent"/>
     <classEntry path="phi.framework.sql.ISQLAdapter"/>
-    <classEntry path="phi.framework.sql.MySQLAdapter"/>
-    <classEntry path="phi.framework.sql.SQLAbstractAdapter"/>
-    <classEntry path="phi.framework.sql.SQLConnectionManager"/>
     <classEntry path="phi.framework.sql.ISQLService"/>
+    <classEntry path="phi.framework.sql.MySQLAdapter"/>
+    <classEntry path="phi.framework.sql.PhiSQLConnection"/>
+    <classEntry path="phi.framework.sql.PhiSQLConnectionManager"/>
+    <classEntry path="phi.framework.sql.PhiSQLErrorEvent"/>
+    <classEntry path="phi.framework.sql.PhiSQLEvent"/>
+    <classEntry path="phi.framework.sql.PhiSQLFunction"/>
+    <classEntry path="phi.framework.sql.PhiSQLHelper"/>
+    <classEntry path="phi.framework.sql.PhiSQLResult"/>
+    <classEntry path="phi.framework.sql.PhiSQLStatement"/>
+    <classEntry path="phi.framework.sql.PhiSQLType"/>
+    <classEntry path="phi.framework.sql.SQLAbstractAdapter"/>
     <classEntry path="phi.framework.sql.SQLAbstractService"/>
-    <classEntry path="phi.framework.sql.SQLDefaultService"/>
-    <classEntry path="phi.framework.sql.SQLResult"/>
-    <classEntry path="phi.framework.sql.SQLType"/>
-    <classEntry path="phi.framework.sql.SQLErrorEvent"/>
-    <classEntry path="phi.framework.sql.SQLHelper"/>
     <classEntry path="phi.framework.sql.SQLCustomSerivice"/>
-    <classEntry path="phi.framework.sql.SQLFunction"/>
+    <classEntry path="phi.framework.sql.SQLDefaultService"/>
   </includeClasses>
   <includeResources/>
-  <namespaceManifests/>
+  <namespaceManifests>
+    <namespaceManifestEntry manifest="manifest.xml" namespace="http://www.phimento.com/2009/mxml"/>
+  </namespaceManifests>
 </flexLibProperties>
