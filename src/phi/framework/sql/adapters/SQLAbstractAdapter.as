@@ -1,5 +1,7 @@
-package phi.framework.sql
+package phi.framework.sql.adapters
 {
+	import phi.framework.sql.services.ISQLService;
+
 	public class SQLAbstractAdapter 
 		implements ISQLAdapter
 	{

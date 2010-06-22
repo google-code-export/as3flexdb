@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="false" version="3">
   <includeClasses>
-    <classEntry path="phi.framework.sql.ISQLAdapter"/>
-    <classEntry path="phi.framework.sql.ISQLService"/>
-    <classEntry path="phi.framework.sql.PhiMySQLAdapter"/>
-    <classEntry path="phi.framework.sql.PhiSQLConnection"/>
-    <classEntry path="phi.framework.sql.PhiSQLConnectionManager"/>
-    <classEntry path="phi.framework.sql.PhiSQLErrorEvent"/>
-    <classEntry path="phi.framework.sql.PhiSQLEvent"/>
-    <classEntry path="phi.framework.sql.PhiSQLFunction"/>
-    <classEntry path="phi.framework.sql.PhiSQLHelper"/>
-    <classEntry path="phi.framework.sql.PhiSQLResult"/>
-    <classEntry path="phi.framework.sql.PhiSQLStatement"/>
-    <classEntry path="phi.framework.sql.PhiSQLType"/>
-    <classEntry path="phi.framework.sql.SQLAbstractAdapter"/>
-    <classEntry path="phi.framework.sql.SQLAbstractService"/>
-    <classEntry path="phi.framework.sql.SQLCustomSerivice"/>
-    <classEntry path="phi.framework.sql.SQLDefaultService"/>
+    <classEntry path="phi.framework.sql.adapters.ISQLAdapter"/>
+    <classEntry path="phi.framework.sql.services.ISQLService"/>
+    <classEntry path="phi.framework.sql.adapters.PhiMySQLAdapter"/>
+    <classEntry path="phi.framework.sql.core.PhiSQLConnection"/>
+    <classEntry path="phi.framework.sql.core.PhiSQLConnectionManager"/>
+    <classEntry path="phi.framework.sql.events.PhiSQLErrorEvent"/>
+    <classEntry path="phi.framework.sql.core.PhiSQLEvent"/>
+    <classEntry path="phi.framework.sql.core.PhiSQLFunction"/>
+    <classEntry path="phi.framework.sql.helpers.PhiSQLHelper"/>
+    <classEntry path="phi.framework.sql.core.PhiSQLResult"/>
+    <classEntry path="phi.framework.sql.core.PhiSQLStatement"/>
+    <classEntry path="phi.framework.sql.core.PhiSQLType"/>
+    <classEntry path="phi.framework.sql.adapters.SQLAbstractAdapter"/>
+    <classEntry path="phi.framework.sql.services.SQLAbstractService"/>
+    <classEntry path="phi.framework.sql.services.SQLCustomSerivice"/>
+    <classEntry path="phi.framework.sql.services.SQLDefaultService"/>
+    <classEntry path="phi.framework.sql.helpers.PhiTable"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

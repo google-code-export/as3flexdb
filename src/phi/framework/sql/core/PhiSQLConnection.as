@@ -1,7 +1,8 @@
-package phi.framework.sql
+package phi.framework.sql.core
 {
 	import mx.messaging.ChannelSet;
 	import mx.rpc.remoting.RemoteObject;
+	import phi.framework.sql.adapters.ISQLAdapter;
 
 	public class PhiSQLConnection
 	{

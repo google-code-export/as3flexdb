@@ -1,5 +1,6 @@
-package phi.framework.sql
+package phi.framework.sql.services
 {
+
 	public class SQLAbstractService implements ISQLService
 	{
 		protected var _destination :String;
