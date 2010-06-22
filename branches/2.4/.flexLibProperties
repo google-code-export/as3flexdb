@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" version="3">
+  <includeClasses>
+    <classEntry path="phi.framework.sql.SQLConnection"/>
+    <classEntry path="phi.framework.sql.SQLStatement"/>
+    <classEntry path="phi.framework.sql.SQLEvent"/>
+    <classEntry path="phi.framework.sql.ISQLAdapter"/>
+    <classEntry path="phi.framework.sql.MySQLAdapter"/>
+    <classEntry path="phi.framework.sql.SQLAbstractAdapter"/>
+    <classEntry path="phi.framework.sql.SQLConnectionManager"/>
+    <classEntry path="phi.framework.sql.ISQLService"/>
+    <classEntry path="phi.framework.sql.SQLAbstractService"/>
+    <classEntry path="phi.framework.sql.SQLDefaultService"/>
+    <classEntry path="phi.framework.sql.SQLResult"/>
+    <classEntry path="phi.framework.sql.SQLType"/>
+    <classEntry path="phi.framework.sql.SQLErrorEvent"/>
+    <classEntry path="phi.framework.sql.SQLHelper"/>
+    <classEntry path="phi.framework.sql.SQLCustomSerivice"/>
+    <classEntry path="phi.framework.sql.SQLFunction"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
