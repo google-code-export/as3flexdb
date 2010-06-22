@@ -5,6 +5,7 @@ package phi.framework.sql.core
 	import mx.managers.CursorManager;
 	import mx.rpc.AsyncResponder;
 	import mx.rpc.AsyncToken;
+	
 	import phi.framework.sql.events.PhiSQLErrorEvent;
 
 	/**
@@ -161,7 +162,11 @@ package phi.framework.sql.core
 				
 				if( parameters[i] is Number )
 					replaceWith = parameters[i];
-				else if( parameters[i] is String )
+				else
+				if( parameters[i] is PhiSQLFunction )
+					replaceWith = PhiSQLFunction( parameters[i] ).toString();
+				else
+				if( parameters[i] is String )
 					replaceWith = '"' + parameters[i] + '"';
 				
 				result = result.replace( regEx, replaceWith );

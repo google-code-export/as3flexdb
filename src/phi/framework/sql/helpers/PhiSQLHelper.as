@@ -52,10 +52,10 @@ package phi.framework.sql.helpers
 			if( item is Number )
 				result = Number(item).toString();
 			else 
-				if( item is PhiSQLFunction )
-					result = PhiSQLFunction( item ).toString();
-				else
-					result = '"'+ String(item) +'"';
+			if( item is PhiSQLFunction )
+				result = PhiSQLFunction( item ).toString();
+			else
+				result = '"'+ String(item) +'"';
 			
 			return result;
 		}
