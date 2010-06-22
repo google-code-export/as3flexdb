@@ -3,7 +3,7 @@
   <includeClasses>
     <classEntry path="phi.framework.sql.ISQLAdapter"/>
     <classEntry path="phi.framework.sql.ISQLService"/>
-    <classEntry path="phi.framework.sql.MySQLAdapter"/>
+    <classEntry path="phi.framework.sql.PhiMySQLAdapter"/>
     <classEntry path="phi.framework.sql.PhiSQLConnection"/>
     <classEntry path="phi.framework.sql.PhiSQLConnectionManager"/>
     <classEntry path="phi.framework.sql.PhiSQLErrorEvent"/>
@@ -19,7 +19,5 @@
     <classEntry path="phi.framework.sql.SQLDefaultService"/>
   </includeClasses>
   <includeResources/>
-  <namespaceManifests>
-    <namespaceManifestEntry manifest="manifest.xml" namespace="http://www.phimento.com/2009/mxml"/>
-  </namespaceManifests>
+  <namespaceManifests/>
 </flexLibProperties>

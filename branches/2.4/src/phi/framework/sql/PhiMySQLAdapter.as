@@ -1,9 +1,9 @@
 package phi.framework.sql
 {
-	public class MySQLAdapter extends SQLAbstractAdapter
+	public class PhiMySQLAdapter extends SQLAbstractAdapter
 		implements ISQLAdapter
 	{
-		public function MySQLAdapter( server:String="", database:String="" )
+		public function PhiMySQLAdapter( server:String="", database:String="" )
 		{
 			super( server, database );
 			service = new SQLDefaultService();
