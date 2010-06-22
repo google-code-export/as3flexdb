@@ -1,5 +1,6 @@
-package phi.framework.sql
+package phi.framework.sql.core
 {
+
 	public class PhiSQLConnectionManager
 	{
 		static private const SINGLETON_EXCEPTION :String = "This class is a singleton";

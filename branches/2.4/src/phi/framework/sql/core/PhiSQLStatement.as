@@ -1,10 +1,11 @@
-package phi.framework.sql
+package phi.framework.sql.core
 {
 	import flash.events.EventDispatcher;
 	
 	import mx.managers.CursorManager;
 	import mx.rpc.AsyncResponder;
 	import mx.rpc.AsyncToken;
+	import phi.framework.sql.events.PhiSQLErrorEvent;
 
 	/**
 	 *  Dispatched after the SQL statement was executed.
@@ -17,14 +18,14 @@ package phi.framework.sql
 	 * 
 	 * @eventType phi.framework.sql.SQLEvent
 	 */
-	[Event(name="sqlResult", type="phi.framework.sql.PhiSQLEvent")]
+	[Event(name="sqlResult", type="phi.framework.sql.core.PhiSQLEvent")]
 	
 	/**
 	 *  Dispatched if any error occurs.
 	 * 
 	 * @eventType phi.framework.sql.SQLErrorEvent
 	 */
-	[Event(name="sqlError", type="phi.framework.sql.PhiSQLErrorEvent")]
+	[Event(name="sqlError", type="phi.framework.sql.events.PhiSQLErrorEvent")]
 
 	
 	public class PhiSQLStatement extends EventDispatcher

@@ -1,4 +1,4 @@
-package phi.framework.sql
+package phi.framework.sql.services
 {
 	public interface ISQLService
 	{

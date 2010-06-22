@@ -1,6 +1,7 @@
-package phi.framework.sql
+package phi.framework.sql.helpers
 {
 	import mx.utils.StringUtil;
+	import phi.framework.sql.core.PhiSQLFunction;
 
 	public class PhiSQLHelper
 	{

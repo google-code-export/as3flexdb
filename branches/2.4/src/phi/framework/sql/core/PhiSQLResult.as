@@ -1,5 +1,6 @@
-package phi.framework.sql
+package phi.framework.sql.core
 {
+
 	public class PhiSQLResult
 	{
 		protected var _token :Object;

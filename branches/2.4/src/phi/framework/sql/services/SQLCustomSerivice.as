@@ -1,5 +1,6 @@
-package phi.framework.sql
+package phi.framework.sql.services
 {
+
 	public class SQLCustomSerivice extends SQLAbstractService 
 		implements ISQLService
 	{

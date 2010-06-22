@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <componentPackage>
-    <component id="PhiSQLConnection" class="phi.framework.sql.PhiSQLConnection" />
-    <component id="PhiSQLStatement" class="phi.framework.sql.PhiSQLStatement" />
-    <component id="PhiMySQLAdapter" class="phi.framework.sql.PhiMySQLAdapter" />
-    <component id="SQLCustomService" class="phi.framework.sql.SQLCustomService" />
+    <component id="PhiSQLConnection" class="phi.framework.sql.core.PhiSQLConnection" />
+    <component id="PhiSQLStatement" class="phi.framework.sql.core.PhiSQLStatement" />
+    <component id="PhiMySQLAdapter" class="phi.framework.sql.adapters.PhiMySQLAdapter" />
+    <component id="SQLCustomService" class="phi.framework.sql.services.SQLCustomService" />
 </componentPackage>
