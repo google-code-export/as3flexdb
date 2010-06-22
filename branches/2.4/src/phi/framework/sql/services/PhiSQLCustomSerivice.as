@@ -1,10 +1,9 @@
 package phi.framework.sql.services
 {
-
-	public class SQLCustomSerivice extends SQLAbstractService 
+	public class PhiSQLCustomSerivice extends SQLAbstractService 
 		implements ISQLService
 	{
-		public function SQLCustomSerivice(destination:String="", source:String="")
+		public function PhiSQLCustomSerivice(destination:String="", source:String="")
 		{
 			super(destination, source);
 		}
