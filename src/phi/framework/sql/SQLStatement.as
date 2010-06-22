@@ -75,6 +75,9 @@ package phi.framework.sql
 		
 		public function get sqlConnection():SQLConnection
 		{
+			if( !_sqlConnection )
+				return SQLConnectionManager.getInstance().getDefaultConnection();
+			
 			return _sqlConnection;	
 		}
 		
@@ -98,11 +101,11 @@ package phi.framework.sql
 			return _result;
 		}
 		
-		public function execute( sql:String=""):void
+		public function execute( sql:String="", tok:Object=null):void
 		{
 			var host :String = sqlConnection.sqlAdapter.host;
 			var database :String = sqlConnection.sqlAdapter.database;
-			var token :AsyncToken = null
+			var t :AsyncToken = null
 			var q :String = "";
 			
 			if( sql == "" )
@@ -110,21 +113,25 @@ package phi.framework.sql
 			else
 				q = sql;
 			
+			if( !tok )
+				tok = token;
+			
 			if( isExecuting )
 			{
-				_waitingStack.push( q );
+				_waitingStack.push( {sql: q, token: tok} );
 			}
 			else
 			{
+				isExecuting = true;
 				
-				token = sqlConnection.remoteObj.query( q, host, database );
+				t = sqlConnection.remoteObj.query( q, host, database );
 				CursorManager.setBusyCursor();
 			
-				token.addResponder(
+				t.addResponder(
 					new AsyncResponder(
 						resultHandler,
 						faultHandler,
-						q
+						{sql: q, token: tok}
 					)
 				);
 			}
@@ -135,7 +142,10 @@ package phi.framework.sql
 		protected function executeNext():void
 		{
 			if( _waitingStack.length > 0 )
-				execute( _waitingStack.shift() );
+			{
+				var extra :Object = _waitingStack.shift();
+				execute( extra.sql, extra.token );
+			}
 		}
 		
 		protected function substituteText():String
@@ -145,7 +155,16 @@ package phi.framework.sql
 			var regEx :RegExp = /\?/;
 			
 			for ( i=0; i<parameters.length; i++ )
-				result = result.replace( regEx, '"' + parameters[i] + '"' );
+			{
+				var replaceWith :String = "";
+				
+				if( parameters[i] is Number )
+					replaceWith = parameters[i];
+				else if( parameters[i] is String )
+					replaceWith = '"' + parameters[i] + '"';
+				
+				result = result.replace( regEx, replaceWith );
+			}
 			
 			return result;
 		}
@@ -154,9 +173,10 @@ package phi.framework.sql
 		// Async handlers
 		//-----------------------------------------
 		
-		protected function resultHandler( data:Object, token:Object ):void
+		protected function resultHandler( data:Object, extra:Object ):void
 		{
 			CursorManager.removeBusyCursor();
+			isExecuting = false;
 			
 			var resultType :String = data.result.type;
 			
@@ -171,13 +191,11 @@ package phi.framework.sql
 			
 			// If no error
 			var event	:SQLEvent = new SQLEvent();	
-			var result	:SQLResult = new SQLResult( this, data.result, String( token ) );
-			result.token = token;
+			var result	:SQLResult = new SQLResult( this, data.result, String( extra.sql ) );
+			result.token = extra.token;
 						
 			event.result = result;
 			dispatchEvent( event );
-			
-			isExecuting = false;
 			
 			executeNext();
 			return;

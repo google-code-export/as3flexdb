@@ -1,35 +1,64 @@
 package phi.framework.sql
 {
+	import mx.utils.StringUtil;
+
 	public class SQLHelper
 	{
 		static public function arrayInsert( table:String, array:Object ):String
 		{
-			var result :String = "";
-			var keys :Array = new Array();
-			var values :Array = new Array();
+			var result 	:String = "INSERT INTO `{0}` (`{1}`) VALUES ({2});";
+			var keys 	:Array = [];
+			var values 	:Array = [];
 			
-			for( var item:String in array )
+			for( var key:String in array )
 			{
-				keys.push( item );
-				values.push( array[item] );
+				keys.push( key );
+				values.push( SQLHelper.itemToString( array[key] ));
 			}
 			
-			result = 'INSERT INTO '+table+' (`'+keys.join('`,`')+'`) VALUES ("'+values.join('","')+'")';		
-			return result;
+			return StringUtil.substitute( result, table, keys.join('`,`'), values.join(','));
 		}
 		
+		/**
+		 * Return a UPDATE SQL from a array.
+		 * 
+		 * @param table
+		 * @param array
+		 * @param cond
+		 * @return 
+		 */
 		static public function arrayUpdate( table:String, array:Object, cond:String ):String
 		{
-			var result :String = "";
-			var body :String = "";
+			var result :String = "UPDATE `{0}` SET {1} WHERE {2};";
+			var updateBody :String = "";
 			
-			for( var item:String in array )
-				body += "`"+item+'` = "'+array[item]+'", ';
+			for( var key :String in array )
+				updateBody += "`"+ key +'` = ' + SQLHelper.itemToString( array[key] ) + ', ';
 			
-			body = body.substr(0, body.length-2 );
-			result = "UPDATE "+table+" SET "+body+" WHERE "+cond;
-			return result;	
+			updateBody = updateBody.substr(0, updateBody.length-2 );
+			return StringUtil.substitute( result, table, updateBody, cond );	
 		}
+		
+		static public function addslashes( str:String ):String
+		{
+			return str.replace(/([\\"'])/g, "\\$1").replace(/\0/g, "\\0");
+		}
+		
+		static public function itemToString( item:* ):String
+		{
+			var result :String = "";
+			
+			if( item is Number )
+				result = Number(item).toString();
+			else 
+				if( item is SQLFunction )
+					result = SQLFunction( item ).toString();
+				else
+					result = '"'+ String(item) +'"';
+			
+			return result;
+		}
+
 			
 	}
 }
