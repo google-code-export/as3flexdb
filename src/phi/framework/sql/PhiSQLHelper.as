@@ -2,7 +2,7 @@ package phi.framework.sql
 {
 	import mx.utils.StringUtil;
 
-	public class SQLHelper
+	public class PhiSQLHelper
 	{
 		static public function arrayInsert( table:String, array:Object ):String
 		{
@@ -13,7 +13,7 @@ package phi.framework.sql
 			for( var key:String in array )
 			{
 				keys.push( key );
-				values.push( SQLHelper.itemToString( array[key] ));
+				values.push( PhiSQLHelper.itemToString( array[key] ));
 			}
 			
 			return StringUtil.substitute( result, table, keys.join('`,`'), values.join(','));
@@ -33,7 +33,7 @@ package phi.framework.sql
 			var updateBody :String = "";
 			
 			for( var key :String in array )
-				updateBody += "`"+ key +'` = ' + SQLHelper.itemToString( array[key] ) + ', ';
+				updateBody += "`"+ key +'` = ' + PhiSQLHelper.itemToString( array[key] ) + ', ';
 			
 			updateBody = updateBody.substr(0, updateBody.length-2 );
 			return StringUtil.substitute( result, table, updateBody, cond );	
@@ -51,8 +51,8 @@ package phi.framework.sql
 			if( item is Number )
 				result = Number(item).toString();
 			else 
-				if( item is SQLFunction )
-					result = SQLFunction( item ).toString();
+				if( item is PhiSQLFunction )
+					result = PhiSQLFunction( item ).toString();
 				else
 					result = '"'+ String(item) +'"';
 			

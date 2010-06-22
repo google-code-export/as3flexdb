@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<componentPackage>
+    <component id="PhiSQLConnection" class="phi.framework.sql.PhiSQLConnection" />
+    <component id="PhiSQLStatement" class="phi.framework.sql.PhiSQLStatement" />
+    <component id="MySQLAdapter" class="phi.framework.sql.MySQLAdapter" />
+</componentPackage>

@@ -1,16 +1,16 @@
 package phi.framework.sql
 {
-	public class SQLResult
+	public class PhiSQLResult
 	{
 		protected var _token :Object;
-		protected var _type  :String = SQLType.SELECT;
+		protected var _type  :String = PhiSQLType.SELECT;
 		protected var _data	 :Array = new Array();
 		protected var _lastInsertID :Number = 0;
 		protected var _rowsAffected	:Number = 0;
 		protected var _query :String = "";
-		protected var _sqlStatement :SQLStatement;
+		protected var _sqlStatement :PhiSQLStatement;
 		
-		public function SQLResult( sqlStatement:SQLStatement, res:Object=null, query:String="" )
+		public function PhiSQLResult( sqlStatement:PhiSQLStatement, res:Object=null, query:String="" )
 		{
 			_sqlStatement = sqlStatement;
 			
@@ -67,7 +67,7 @@ package phi.framework.sql
 			return _rowsAffected;
 		}
 		
-		public function get sqlStatement():SQLStatement
+		public function get sqlStatement():PhiSQLStatement
 		{
 			return _sqlStatement;
 		}

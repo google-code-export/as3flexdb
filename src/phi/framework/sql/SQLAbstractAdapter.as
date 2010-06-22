@@ -1,10 +1,11 @@
 package phi.framework.sql
 {
-	public class SQLAbstractAdapter implements ISQLAdapter
+	public class SQLAbstractAdapter 
+		implements ISQLAdapter
 	{
 		protected var _server 	  :String;
 		protected var _database   :String;
-		protected var _service :ISQLService;
+		protected var _service 	  :ISQLService;
 		
 		public function SQLAbstractAdapter( server:String="", database:String="")
 		{

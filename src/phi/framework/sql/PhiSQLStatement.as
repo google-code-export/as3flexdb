@@ -17,30 +17,30 @@ package phi.framework.sql
 	 * 
 	 * @eventType phi.framework.sql.SQLEvent
 	 */
-	[Event(name="sqlResult", type="phi.framework.sql.SQLEvent")]
+	[Event(name="sqlResult", type="phi.framework.sql.PhiSQLEvent")]
 	
 	/**
 	 *  Dispatched if any error occurs.
 	 * 
 	 * @eventType phi.framework.sql.SQLErrorEvent
 	 */
-	[Event(name="sqlError", type="phi.framework.sql.SQLErrorEvent")]
+	[Event(name="sqlError", type="phi.framework.sql.PhiSQLErrorEvent")]
 
 	
-	public class SQLStatement extends EventDispatcher
+	public class PhiSQLStatement extends EventDispatcher
 	{
-		protected var _sqlConnection :SQLConnection = null;
+		protected var _sqlConnection :PhiSQLConnection = null;
 		protected var _text :String;
 		protected var _parameters :Array = new Array();
 		protected var _token :Object = new Object();
-		protected var _result :SQLResult;
+		protected var _result :PhiSQLResult;
 		protected var _waitingStack :Array = new Array();
 		protected var _isExecuting :Boolean = false;
 		
-		public function SQLStatement( text:String="" )
+		public function PhiSQLStatement( text:String="" )
 		{
 			this.text = text;
-			this._result = new SQLResult( this );
+			this._result = new PhiSQLResult( this );
 		}
 		
 		public function set text( value:String ):void
@@ -68,15 +68,15 @@ package phi.framework.sql
 			return _parameters;
 		}
 		
-		public function set sqlConnection( value:SQLConnection ):void
+		public function set sqlConnection( value:PhiSQLConnection ):void
 		{
 			_sqlConnection = value;	
 		}
 		
-		public function get sqlConnection():SQLConnection
+		public function get sqlConnection():PhiSQLConnection
 		{
 			if( !_sqlConnection )
-				return SQLConnectionManager.getInstance().getDefaultConnection();
+				return PhiSQLConnectionManager.getInstance().getDefaultConnection();
 			
 			return _sqlConnection;	
 		}
@@ -96,7 +96,7 @@ package phi.framework.sql
 			_parameters = new Array();
 		}
 		
-		public function getResult():SQLResult
+		public function getResult():PhiSQLResult
 		{
 			return _result;
 		}
@@ -182,7 +182,7 @@ package phi.framework.sql
 			
 			if( resultType == "error" )
 			{
-				var errorEvent :SQLErrorEvent = new SQLErrorEvent();
+				var errorEvent :PhiSQLErrorEvent = new PhiSQLErrorEvent();
 				errorEvent.error = data.result.error as String;
 				
 				dispatchEvent( errorEvent );
@@ -190,8 +190,8 @@ package phi.framework.sql
 			}
 			
 			// If no error
-			var event	:SQLEvent = new SQLEvent();	
-			var result	:SQLResult = new SQLResult( this, data.result, String( extra.sql ) );
+			var event	:PhiSQLEvent = new PhiSQLEvent();	
+			var result	:PhiSQLResult = new PhiSQLResult( this, data.result, String( extra.sql ) );
 			result.token = extra.token;
 						
 			event.result = result;

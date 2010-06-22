@@ -2,13 +2,13 @@ package phi.framework.sql
 {
 	import flash.events.Event;
 	
-	public class SQLEvent extends Event
+	public class PhiSQLEvent extends Event
 	{
 		static public const SQL_RESULT :String = "sqlResult";
 		
-		public var result :SQLResult;
+		public var result :PhiSQLResult;
 		
-		public function SQLEvent(bubbles:Boolean=false, cancelable:Boolean=false)
+		public function PhiSQLEvent(bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(SQL_RESULT, bubbles, cancelable);
 		}
