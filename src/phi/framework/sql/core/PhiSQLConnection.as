@@ -6,6 +6,11 @@ package phi.framework.sql.core
 
 	public class PhiSQLConnection
 	{
+		// Public vars
+		public var destination :String = "amfphp";
+		public var source :String = "AS3FlexDB";
+		
+		// Protected vars
 		protected var _remoteObj	:RemoteObject;
 		protected var _sqlAdapter 	:ISQLAdapter;
 		protected var _channel		:ChannelSet = new ChannelSet();
@@ -23,8 +28,8 @@ package phi.framework.sql.core
 		{
 			_remoteObj = new RemoteObject();
 			
-			_remoteObj.destination = sqlAdapter.service.destination;
-			_remoteObj.source = sqlAdapter.service.source;
+			_remoteObj.destination = destination;
+			_remoteObj.source = source;
 			
 			if( _channel.channels.length )
 				remoteObj.channelSet = _channel;
@@ -49,6 +54,7 @@ package phi.framework.sql.core
 		public function set channel( value:ChannelSet ):void
 		{
 			_channel = value;
+			connect();
 		}
 		
 		public function get channel():ChannelSet
