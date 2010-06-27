@@ -1,28 +1,18 @@
 package phi.framework.sql.adapters
 {
-	import phi.framework.sql.services.ISQLService;
-
+	import mx.messaging.Channel;
+	import mx.messaging.ChannelSet;
+	
 	public class PhiSQLAbstractAdapter 
 		implements ISQLAdapter
 	{
 		protected var _server 	  :String;
 		protected var _database   :String;
-		protected var _service 	  :ISQLService;
 		
 		public function PhiSQLAbstractAdapter( server:String="", database:String="")
 		{
 			this.host = server;
 			this.database = database;
-		}
-		
-		public function get service():ISQLService
-		{
-			return _service;
-		}
-		
-		public function set service( value:ISQLService ):void
-		{
-			_service = value;
 		}
 		
 		public function set host( value:String ):void

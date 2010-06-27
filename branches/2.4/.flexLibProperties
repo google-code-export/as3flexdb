@@ -15,10 +15,6 @@
     <classEntry path="phi.framework.sql.helpers.PhiArrayTable"/>
     <classEntry path="phi.framework.sql.helpers.PhiSQLHelper"/>
     <classEntry path="phi.framework.sql.helpers.PhiTable"/>
-    <classEntry path="phi.framework.sql.services.ISQLService"/>
-    <classEntry path="phi.framework.sql.services.PhiSQLCustomSerivice"/>
-    <classEntry path="phi.framework.sql.services.SQLAbstractService"/>
-    <classEntry path="phi.framework.sql.services.SQLDefaultService"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests>

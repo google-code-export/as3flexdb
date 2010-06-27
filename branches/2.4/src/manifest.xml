@@ -3,5 +3,4 @@
     <component id="PhiSQLConnection" class="phi.framework.sql.core.PhiSQLConnection" />
     <component id="PhiSQLStatement" class="phi.framework.sql.core.PhiSQLStatement" />
     <component id="PhiMySQLAdapter" class="phi.framework.sql.adapters.PhiMySQLAdapter" />
-    <component id="PhiSQLCustomSerivice" class="phi.framework.sql.services.PhiSQLCustomSerivice" />
 </componentPackage>
