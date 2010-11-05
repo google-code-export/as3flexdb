@@ -45,6 +45,11 @@ package phi.framework.sql.core
 			this._result = new PhiSQLResult( this );
 		}
 		
+		public function get parsedText():String
+		{
+			return substituteText();
+		}
+		
 		public function set text( value:String ):void
 		{
 			_text = value;
