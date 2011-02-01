@@ -8,7 +8,7 @@ package phi.framework.sql.core
 	{
 		// Public vars
 		public var destination :String = "amfphp";
-		public var source :String = "AS3FlexDB";
+		public var source :String = "mysql.as3flexdb";
 		
 		// Protected vars
 		protected var _remoteObj	:RemoteObject;

@@ -35,13 +35,15 @@ package phi.framework.sql.helpers
 		// Constructor
 		//---------------------------------------
 		
-		public function PhiTable ( table:String="" )
+		public function PhiTable ( table:String="", mustInitSQL:Boolean=true )
 		{
 			super();
 			
 			// Init SQL
 			this.table = table;
-			this.initSQL();
+			
+			if( mustInitSQL )
+				initSQL();
 		}
 		
 		//---------------------------------------
@@ -57,10 +59,26 @@ package phi.framework.sql.helpers
 			if ( sqlStatement )
 				return;
 			
+			var connection :PhiSQLConnection = PhiSQLConnectionManager.getInstance().getDefaultConnection();
+			
+			if( !connection )
+				connection = createConnection();
+			
+			if( !connection )
+				throw new Error("You must provide at least one PhiSQLConnection!");
+			
 			sqlStatement = new PhiSQLStatement();
-			sqlStatement.sqlConnection = PhiSQLConnectionManager.getInstance().getDefaultConnection();
+			sqlStatement.sqlConnection = connection; 
 			sqlStatement.addEventListener( PhiSQLEvent.SQL_RESULT, sqlResultHandler );
 			sqlStatement.addEventListener( PhiSQLErrorEvent.SQL_ERROR, sqlErrorHandler );
+		}
+
+		/**
+		 * Override this to create custom connection.
+		 */
+		protected function createConnection():PhiSQLConnection
+		{
+			return null;
 		}
 		
 		/**
