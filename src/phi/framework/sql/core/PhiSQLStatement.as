@@ -31,6 +31,10 @@ package phi.framework.sql.core
 	
 	public class PhiSQLStatement extends EventDispatcher
 	{
+		// Public vars
+		public var showBusyCursor :Boolean = true;
+		
+		// Protected vars
 		protected var _sqlConnection :PhiSQLConnection = null;
 		protected var _text :String;
 		protected var _parameters :Array = new Array();
@@ -132,7 +136,9 @@ package phi.framework.sql.core
 				isExecuting = true;
 				
 				t = sqlConnection.remoteObj.query( q, host, database );
-				CursorManager.setBusyCursor();
+				
+				if( showBusyCursor )
+					CursorManager.setBusyCursor();
 			
 				t.addResponder(
 					new AsyncResponder(
