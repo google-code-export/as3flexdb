@@ -124,6 +124,7 @@ package phi.framework.sql.helpers
 		 */
 		protected function sqlErrorHandler ( event :PhiSQLErrorEvent ) :void
 		{
+			trace('asdasd');
 		}
 		
 		//-----------------------------------
