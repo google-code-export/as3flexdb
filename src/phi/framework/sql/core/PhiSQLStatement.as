@@ -152,6 +152,49 @@ package phi.framework.sql.core
 			return;
 		}
 		
+		/**
+		 * Execute multiple SQL semicolon separated.
+		 * @param sqls Array containing SQL sintaxes terminated with semicolon.
+		 * @param tok Object containing extra information.
+		 * 
+		 */
+		public function executeMultiple( sqls:Array, tok:Object=null):void
+		{
+			var host 		:String 	= sqlConnection.sqlAdapter.host;
+			var database 	:String 	= sqlConnection.sqlAdapter.database;
+			var t 			:AsyncToken = null;
+			var q 			:String 	= "";
+			
+			q = sqls.join(" ");
+			
+			if( !tok )
+				tok = token;
+			
+			if( isExecuting )
+			{
+				_waitingStack.push( {sql: q, token: tok} );
+			}
+			else
+			{
+				isExecuting = true;
+				
+				t = sqlConnection.remoteObj.multipleQuery( q, host, database );
+				
+				if( showBusyCursor )
+					CursorManager.setBusyCursor();
+				
+				t.addResponder(
+					new AsyncResponder(
+						resultHandler,
+						faultHandler,
+						{sql: q, token: tok}
+					)
+				);
+			}
+			
+			return;
+		}
+		
 		protected function executeNext():void
 		{
 			if( _waitingStack.length > 0 )
